@@ -38,4 +38,8 @@ class HomeController extends Controller
 
         return redirect('review');
     }
+
+    public function contact(){
+        return view('contact');
+    }
 }

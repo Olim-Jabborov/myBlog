@@ -22,3 +22,5 @@ Route::get('/about', [HomeController::class, 'about']);
 Route::get('/review', [HomeController::class, 'review']);
 
 Route::post('/review/check', [HomeController::class, 'review_check']);
+
+Route::get('/contact', [HomeController::class, 'contact']);
