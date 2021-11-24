@@ -19,17 +19,33 @@
     <title>@yield('title')</title>
 </head>
 <body>
-    <div class="d-flex flex-column flex-md-row align-items-center py-3 mb-4 border-bottom bg-dark">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-between py-3 mb-4 bg-dark">
         <a href="/" class="d-flex align-items-center text-white text-decoration-none mx-5">
           <span class="fs-4">MyBlog</span>
         </a>
   
-        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto mx-5">
+        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto mx-5 align-items-center">
           <a class="me-3 py-2 text-white text-decoration-none" href="/">Home</a>
           <a class="me-3 py-2 text-white text-decoration-none" href="/about">About</a>
           <a class="me-3 py-2 text-white text-decoration-none" href="/contact">Contact Us</a>
           <a class="me-3 py-2 text-white text-decoration-none" href="/review">Review</a>
+          
         </nav>
+        @if (Route::has('login'))
+                
+                    @auth
+                    <x-app-layout>
+
+                    </x-app-layout>
+                    @else
+                        <a href="{{ route('login') }}" class="me-3 py-2 text-white text-decoration-none">Log in</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="me-3 py-2 text-white text-decoration-none">Register</a>
+                        @endif
+                    @endauth
+                
+            @endif
     </div>
 
     @yield('main_content')

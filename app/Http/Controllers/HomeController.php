@@ -3,13 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Review;
+use App\Models\Contact;
+
 
 class HomeController extends Controller
 {
     public function index(){
         return view('home');
+    }
+
+    public function check_admin(){
+        $usertype = Auth::user()->usertype;
+
+        if($usertype=='1'){
+            return view('admin.adminpage');
+        }
+        else{
+            return view('home');
+        }
     }
 
     public function about(){
@@ -18,7 +32,7 @@ class HomeController extends Controller
 
     public function review(){
         $reviews = new Review();
-        return view('review', ['reviews' => $reviews->all()]);
+        return view('review', ['reviews' => $reviews->orderBy('id', 'desc')->get()]);
     }
 
     public function review_check(Request $request){
@@ -41,5 +55,25 @@ class HomeController extends Controller
 
     public function contact(){
         return view('contact');
+    }
+
+    public function contact_check(Request $request){
+        $validation = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'subject' => 'required',
+            'message' => 'required'
+        ]);
+
+        $contact = new Contact();
+
+        $contact->name = $request->input('name');
+        $contact->email = $request->input('email');
+        $contact->subject = $request->input('subject');
+        $contact->message = $request->input('message');
+
+        $contact->save();
+
+        return redirect('contact')->with('success', "Added successfully!");
     }
 }
